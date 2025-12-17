@@ -55,3 +55,16 @@ def select_unique_videos_with_new_views_by_date(
     ).distinct()
 
     return select(func.count()).select_from(subquery.subquery())
+
+
+def select_videos_count_by_creator_above_views(
+        creator_id: str,
+        views: int
+) -> Executable:
+    """Запрос количества видео у креатора с просмотрами выше порога"""
+    return select(func.count(Videos.id)).where(
+        and_(
+            Videos.creator_id == creator_id,
+            Videos.views_count > views
+        )
+    )

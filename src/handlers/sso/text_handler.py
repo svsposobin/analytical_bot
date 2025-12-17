@@ -11,7 +11,7 @@ from src.handlers.videos.schemas import (
     CountVideosPerCreatorByDate,
     CountVideosPerMoreViews,
     CountViewsGrewUPPerDate,
-    CountDifferentVideosForNewViewsPerDate, QueryResponse
+    CountDifferentVideosForNewViewsPerDate, QueryResponse, CountVideosPerCreatorAboveViews
 )
 
 
@@ -66,6 +66,14 @@ class TextQueryHandler:
                         session=session
                     )
                     result.result = unique_videos
+
+                case CountVideosPerCreatorAboveViews() as schema:
+                    count: int = await AnalyticRepository.get_videos_count_by_creator_above_views(
+                        creator_id=schema.creator_id,
+                        views=schema.views,
+                        session=session
+                    )
+                    result.result = count
 
                 case _:
                     raise Exception("Неизвестный тип запроса")  # Переброс

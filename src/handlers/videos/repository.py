@@ -9,7 +9,7 @@ from src.handlers.videos.queries.select import (
     select_videos_count_by_creator_and_date,
     select_videos_count_with_views_above,
     select_total_views_growth_by_date,
-    select_unique_videos_with_new_views_by_date
+    select_unique_videos_with_new_views_by_date, select_videos_count_by_creator_above_views
 )
 
 
@@ -79,6 +79,21 @@ class AnalyticRepository:
         dt_from = datetime.combine(target_date, datetime.min.time())
         dt_to = dt_from + timedelta(days=1)
         stmt: Executable = select_unique_videos_with_new_views_by_date(date_from=dt_from, date_to=dt_to)
+
+        result: Result[Any] = await AnalyticRepository.__execute_scalar(stmt=stmt, session=session)
+        return result or 0  # type: ignore
+
+    @staticmethod
+    async def get_videos_count_by_creator_above_views(
+            creator_id: str,
+            views: int,
+            session: AsyncSession
+    ) -> int:
+        """Получить количество видео у креатора с просмотрами выше порога"""
+        stmt: Executable = select_videos_count_by_creator_above_views(
+            creator_id=creator_id,
+            views=views
+        )
 
         result: Result[Any] = await AnalyticRepository.__execute_scalar(stmt=stmt, session=session)
         return result or 0  # type: ignore

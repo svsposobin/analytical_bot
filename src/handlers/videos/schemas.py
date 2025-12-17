@@ -39,7 +39,7 @@ class CountVideosPerCreatorByDate(BaseResponse):
         else:
             raise ValueError(f"Дата должна быть строкой или date, получен {type(v)}")
 
-    @field_validator('date_to')
+    @field_validator('date_to', mode="before")
     @classmethod
     def validate_dates(cls, v: date, info):
         values = info.data
@@ -72,6 +72,31 @@ class CountViewsGrewUPPerDate(BaseResponse):
 class CountDifferentVideosForNewViewsPerDate(BaseResponse):
     date: date
 
+class CountVideosPerCreatorAboveViews(BaseResponse):
+    creator_id: str
+    views: int
+
+    @field_validator('creator_id', mode="before")
+    @classmethod
+    def validate_creator_id(cls, v: Optional[str]) -> str:
+        if v is None:
+            raise ValueError("creator_id не может быть None")
+        if not isinstance(v, str):
+            raise ValueError(f"creator_id должен быть строкой, получен {type(v)}")
+
+        creator_id = v.strip()
+        if not creator_id:
+            raise ValueError("creator_id не может быть пустым")
+
+        return creator_id
+
+    @field_validator('views', mode="before")
+    @classmethod
+    def validate_views(cls, v: int) -> int:
+        if v < 0:
+            raise ValueError("views не может быть отрицательным")
+        return v
+
 
 class QueryResponse(BaseModel):
     status: bool = Field(default=False, description="Статус выполнения")
@@ -84,5 +109,6 @@ SCHEMA_MAP: Dict[str, Any] = {
     "CountVideosPerCreatorByDate": CountVideosPerCreatorByDate,
     "CountVideosPerMoreViews": CountVideosPerMoreViews,
     "CountViewsGrewUPPerDate": CountViewsGrewUPPerDate,
-    "CountDifferentVideosForNewViewsPerDate": CountDifferentVideosForNewViewsPerDate
+    "CountDifferentVideosForNewViewsPerDate": CountDifferentVideosForNewViewsPerDate,
+    "CountVideosPerCreatorAboveViews": CountVideosPerCreatorAboveViews
 }
