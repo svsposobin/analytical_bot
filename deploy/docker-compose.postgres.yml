@@ -1,0 +1,11 @@
+services:
+
+  analytical_bot_local_postgres:
+    container_name: analytical_bot_local_postgres
+    image: postgres:16.3-alpine3.19
+    environment:
+      - POSTGRES_USER=${PSQL_USER}
+      - POSTGRES_PASSWORD=${PSQL_PASSWORD}
+      - POSTGRES_DB=${PSQL_DATABASE}
+    ports:
+      - "5432:5432"

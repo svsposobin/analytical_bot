@@ -1,0 +1,19 @@
+version: '3'
+
+tasks:
+
+  build_local_postgres:
+    desc: "Build postgres in container"
+    cmd: sudo docker compose --env-file .env -f deploy/docker-compose.postgres.yml up -d --build
+
+  delete_local_postgres:
+    desc: "Delete local-postgres container"
+    cmd: sudo docker rm -f analytical_bot_local_postgres
+
+  stop_postgres:
+    desc: "Stop postgres"
+    cmd: sudo systemctl stop postgresql
+
+  start_postgres:
+    desc: "Start postgres"
+    cmd: sudo systemctl start postgresql

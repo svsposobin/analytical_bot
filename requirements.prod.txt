@@ -1,0 +1,43 @@
+# Основные фреймворки
+aiogram==3.23.0
+sqlalchemy==2.0.45
+pydantic==2.12.5
+
+# База данных и миграции
+psycopg==3.3.2
+alembic==1.17.2
+
+# Асинхронные HTTP-клиенты и серверы
+aiohttp==3.13.2
+aiofiles==25.1.0
+
+# Вспомогательные библиотеки
+python-dotenv==1.2.1
+greenlet==3.3.0  # Для async SQLAlchemy
+
+# Зависимости aiogram/aiohttp (обычно подтягиваются автоматически, но лучше зафиксировать)
+magic-filter==1.0.12
+multidict==6.7.0
+yarl==1.22.0
+frozenlist==1.8.0
+attrs==25.4.0
+aiohappyeyeballs==2.6.1
+aiosignal==1.4.0
+
+# Зависимости SQLAlchemy/alembic
+Mako==1.3.10
+MarkupSafe==3.0.3
+
+# Зависимости pydantic
+pydantic_core==2.41.5
+annotated-types==0.7.0
+typing_extensions==4.15.0
+
+# Системные зависимости
+certifi==2025.11.12
+idna==3.11
+
+# Утилиты
+propcache==0.4.1
+librt==0.7.4
+typing-inspection==0.4.2
